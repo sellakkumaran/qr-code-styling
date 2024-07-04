@@ -9,6 +9,8 @@ export default class QRSVG {
     _options: RequiredOptions;
     _qr?: QRCode;
     _image?: HTMLImageElement;
+    _instanceId: number;
+    static instanceCount: number;
     constructor(options: RequiredOptions);
     get width(): number;
     get height(): number;
