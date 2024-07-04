@@ -36,6 +36,9 @@ export default class QRSVG {
   _options: RequiredOptions;
   _qr?: QRCode;
   _image?: HTMLImageElement;
+  _instanceId: number;
+
+  static instanceCount = 0;
 
   //TODO don't pass all options to this class
   constructor(options: RequiredOptions) {
@@ -45,6 +48,7 @@ export default class QRSVG {
     this._defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
     this._element.appendChild(this._defs);
 
+    this._instanceId = QRSVG.instanceCount++;
     this._options = options;
   }
 
@@ -171,7 +175,7 @@ export default class QRSVG {
     const dot = new QRDot({ svg: this._element, type: options.dotsOptions.type });
 
     this._dotsClipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
-    this._dotsClipPath.setAttribute("id", "clip-path-dot-color");
+    this._dotsClipPath.setAttribute("id", `clip-path-dot-color-${this._instanceId}`);
     this._defs.appendChild(this._dotsClipPath);
 
     this._createColor({
@@ -182,7 +186,7 @@ export default class QRSVG {
       y: yBeginning,
       height: count * dotSize,
       width: count * dotSize,
-      name: "dot-color"
+      name: `dot-color-${this._instanceId}`
     });
 
     for (let i = 0; i < count; i++) {
